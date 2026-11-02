@@ -162,10 +162,10 @@ def main() -> None:
     if args.command == "prepare":
         prepare(args.input, args.output)
     elif args.command == "download-kaggle":
-        from bella_dataset.integrations import download_kaggle_dataset
+        from integrations import download_kaggle_dataset
         print(json.dumps(download_kaggle_dataset(args.dataset, args.output), indent=2))
     elif args.command == "mirror-huggingface":
-        from bella_dataset.integrations import mirror_to_huggingface
+        from integrations import mirror_to_huggingface
         print(json.dumps(mirror_to_huggingface(args.input, args.repo), indent=2))
 
 

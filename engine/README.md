@@ -15,6 +15,11 @@ npm install
 python3 -m pip install -r python/requirements.txt
 ```
 
+## Run the Python tests
+```bash
+PYTHONPATH=python python3 -m unittest discover -s python/tests -v
+```
+
 ## Configure and run
 ```bash
 export BELLA_DATASET_INPUT="/absolute/path/to/datasets"

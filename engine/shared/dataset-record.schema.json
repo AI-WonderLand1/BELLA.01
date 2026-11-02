@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bella-01.ai/schemas/dataset-record.schema.json",
+  "title": "BELLA.01 normalized chat record",
+  "type": "object",
+  "required": ["messages", "source_file"],
+  "properties": {
+    "messages": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["role", "content"],
+        "properties": {
+          "role": { "enum": ["system", "user", "assistant", "tool"] },
+          "content": { "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": false
+      }
+    },
+    "source_file": { "type": "string", "minLength": 1 }
+  },
+  "additionalProperties": false
+}

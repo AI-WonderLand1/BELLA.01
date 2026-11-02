@@ -1,0 +1,19 @@
+{
+  "name": "@bella-01/hybrid-dataset-engine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Node.js orchestration and Python data-processing engine for BELLA.01",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  },
+  "engines": { "node": ">=20" }
+}

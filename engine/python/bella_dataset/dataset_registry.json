@@ -1,0 +1,179 @@
+{
+  "version": 1,
+  "datasets": [
+    {
+      "id": "openthoughts-114k-qwen3-think-format",
+      "name": "OpenThoughts-114k Qwen3 Think Format",
+      "lane": "architectural_reasoning",
+      "kind": "reasoning"
+    },
+    {
+      "id": "openthoughts-agent-v1-rl",
+      "name": "OpenThoughts-Agent-v1-RL",
+      "lane": "architectural_reasoning",
+      "kind": "agent_trajectory"
+    },
+    {
+      "id": "openthoughts-formatted-for-llm",
+      "name": "Openthoughts-formatted-for-llm",
+      "lane": "architectural_reasoning",
+      "kind": "reasoning"
+    },
+    {
+      "id": "lhaw-long-horizon-augmented-workflows",
+      "name": "LHAW: Long-Horizon Augmented Workflows",
+      "lane": "architectural_reasoning",
+      "kind": "workflow"
+    },
+    {
+      "id": "toolsearcher-data",
+      "name": "ToolSearcher_data",
+      "lane": "architectural_reasoning",
+      "kind": "tool_use"
+    },
+    {
+      "id": "llm-benchmark-tracker-2024-2026",
+      "name": "LLM Benchmark Tracker 2024–2026",
+      "lane": "architectural_reasoning",
+      "kind": "benchmark"
+    },
+    {
+      "id": "llm-benchmarks-capabilities-2020-2026",
+      "name": "LLM Benchmarks & Capabilities 2020-2026",
+      "lane": "architectural_reasoning",
+      "kind": "benchmark"
+    },
+    {
+      "id": "frontier-ai-models-intelligence-hub",
+      "name": "Frontier AI Models Intelligence Hub",
+      "lane": "architectural_reasoning",
+      "kind": "reference"
+    },
+    {
+      "id": "open-source-llm-evaluation-hub",
+      "name": "Open-Source LLM Evaluation Hub",
+      "lane": "architectural_reasoning",
+      "kind": "benchmark"
+    },
+    {
+      "id": "mimo-v2-6-distill-qwen-9b-webdev-chunk-00",
+      "name": "MiMo V2.6 Distill Qwen 9B Webdev Chunk 00",
+      "lane": "full_stack_compilation",
+      "kind": "code"
+    },
+    {
+      "id": "natural-language-to-project-structure",
+      "name": "Natural Language to Project Structure",
+      "lane": "full_stack_compilation",
+      "kind": "project_structure"
+    },
+    {
+      "id": "kapcode-1b",
+      "name": "KapCode-1B",
+      "lane": "full_stack_compilation",
+      "kind": "code"
+    },
+    {
+      "id": "codesearchnet",
+      "name": "CodeSearchNet",
+      "lane": "full_stack_compilation",
+      "kind": "code"
+    },
+    {
+      "id": "github-documentation-dataset",
+      "name": "GitHub Documentation Dataset",
+      "lane": "full_stack_compilation",
+      "kind": "documentation"
+    },
+    {
+      "id": "stack-overflow-questions-2020-2025",
+      "name": "Stack Overflow Questions 2020-2025",
+      "lane": "full_stack_compilation",
+      "kind": "qa"
+    },
+    {
+      "id": "teknium-openhermes-2-5",
+      "name": "teknium_OpenHermes-2.5",
+      "lane": "full_stack_compilation",
+      "kind": "instruction"
+    },
+    {
+      "id": "cct-training-data-openhermes-2-5-40k",
+      "name": "CCT Training Data (OpenHermes 2.5 40k)",
+      "lane": "full_stack_compilation",
+      "kind": "instruction"
+    },
+    {
+      "id": "53m-token-instruction-code-qa-dataset",
+      "name": "53M Token Instruction, Code & QA Dataset",
+      "lane": "full_stack_compilation",
+      "kind": "instruction"
+    },
+    {
+      "id": "bella-dataset-01",
+      "name": "BELLA-DATASET-01",
+      "lane": "full_stack_compilation",
+      "kind": "bella"
+    },
+    {
+      "id": "swe-smith-golden-dataset",
+      "name": "swe-smith-golden-dataset",
+      "lane": "agentic_self_learning",
+      "kind": "swe_trajectory"
+    },
+    {
+      "id": "swe-smith-python-small",
+      "name": "SWE-SMITH-PYTHON-SMALL",
+      "lane": "agentic_self_learning",
+      "kind": "swe_trajectory"
+    },
+    {
+      "id": "swe-smith-trajectories-transformed-gemma-4-agent",
+      "name": "SWE-smith trajectories transformed (Gemma 4 agent)",
+      "lane": "agentic_self_learning",
+      "kind": "agent_trajectory"
+    },
+    {
+      "id": "git-diff-to-commit-msg-large",
+      "name": "git-diff_to_commit_msg_large",
+      "lane": "agentic_self_learning",
+      "kind": "git"
+    },
+    {
+      "id": "toolbench-agentic-dataset",
+      "name": "ToolBench Agentic Dataset",
+      "lane": "agentic_self_learning",
+      "kind": "tool_trajectory"
+    },
+    {
+      "id": "malware-detection",
+      "name": "Malware Detection",
+      "lane": "secured_sandbox_guard",
+      "kind": "security_metadata"
+    },
+    {
+      "id": "android-malware-detection",
+      "name": "Android Malware Detection",
+      "lane": "secured_sandbox_guard",
+      "kind": "security_metadata"
+    },
+    {
+      "id": "big-malware-dataset-from-microsoft",
+      "name": "BIG Malware Dataset from Microsoft",
+      "lane": "secured_sandbox_guard",
+      "kind": "security_metadata"
+    }
+  ],
+  "lanes": [
+    "architectural_reasoning",
+    "full_stack_compilation",
+    "agentic_self_learning",
+    "secured_sandbox_guard"
+  ],
+  "policy": {
+    "unknown_dataset": "skip_and_report",
+    "binary_files": "never_parse_or_tokenize",
+    "security_lane": "metadata_and_detection_features_only",
+    "license": "review_each_source_before_training_or_redistribution"
+  }
+}

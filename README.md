@@ -135,7 +135,7 @@ From `engine/`:
 ```bash
 npm run typecheck
 npm run build
-python -m unittest discover -s python/tests -v
+PYTHONPATH=python python -m unittest discover -s python/tests -v
 ```
 
 Run these checks before treating the current implementation as production-ready. Live provider integration tests require valid credentials and a confirmed Kaggle dataset ID.

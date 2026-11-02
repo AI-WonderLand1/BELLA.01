@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Iterator
 from tokenizers import Tokenizer
 LANES=("architectural_reasoning","full_stack_compilation","agentic_self_learning","secured_sandbox_guard")
+LANE_TOKENS={"architectural_reasoning":"[LANE_ARCH]","full_stack_compilation":"[LANE_CODE]","agentic_self_learning":"[LANE_AGENT]","secured_sandbox_guard":"[LANE_SECURITY]"}
 def iter_sequences(data:Path,tokenizer_file:Path,seq_length:int=2048,stride:int|None=None,include_security:bool=False)->Iterator[dict]:
     if seq_length<8:raise ValueError("seq_length must be >= 8")
     tok=Tokenizer.from_file(str(tokenizer_file));pad=tok.token_to_id("[PAD]")
@@ -19,6 +20,8 @@ def iter_sequences(data:Path,tokenizer_file:Path,seq_length:int=2048,stride:int|
                 row=json.loads(line);text=row.get("text")
                 if not isinstance(text,str) or not text:continue
                 ids=tok.encode(text,add_special_tokens=False).ids
+                lane_id=tok.token_to_id(LANE_TOKENS[lane])
+                if lane_id is not None:ids.insert(0,lane_id)
                 if bos is not None:ids.insert(0,bos)
                 if eos is not None:ids.append(eos)
                 for start in range(0,len(ids),stride):

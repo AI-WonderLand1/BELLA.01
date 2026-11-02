@@ -149,9 +149,24 @@ def main() -> None:
     command = sub.add_parser("prepare")
     command.add_argument("--input", type=Path, required=True)
     command.add_argument("--output", type=Path, required=True)
+
+    kaggle = sub.add_parser("download-kaggle")
+    kaggle.add_argument("--dataset", required=True)
+    kaggle.add_argument("--output", type=Path, required=True)
+
+    mirror = sub.add_parser("mirror-huggingface")
+    mirror.add_argument("--input", type=Path, required=True)
+    mirror.add_argument("--repo", default=None)
+
     args = parser.parse_args()
     if args.command == "prepare":
         prepare(args.input, args.output)
+    elif args.command == "download-kaggle":
+        from bella_dataset.integrations import download_kaggle_dataset
+        print(json.dumps(download_kaggle_dataset(args.dataset, args.output), indent=2))
+    elif args.command == "mirror-huggingface":
+        from bella_dataset.integrations import mirror_to_huggingface
+        print(json.dumps(mirror_to_huggingface(args.input, args.repo), indent=2))
 
 
 if __name__ == "__main__":

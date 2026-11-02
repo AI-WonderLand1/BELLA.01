@@ -48,22 +48,22 @@ def iter_records(path:Path)->Iterator[Any]:
         with path.open(encoding="utf-8",errors="replace") as f:
             for line in f:
                 if line.strip(): yield {"text":line.rstrip("\n")}
-TEXT_KEYS=("text","content","code","source","target","instruction","prompt","question","answer","response","completion","output","input","documentation","description","diff","patch","commit_message","thought","reasoning","trajectory","trace","tool_call","tool_output","steps","messages","conversations","chosen","rejected")
+TEXT_KEYS=("role","from","speaker","text","content","code","source","target","instruction","prompt","question","answer","response","completion","output","input","documentation","description","diff","patch","commit_message","thought","reasoning","trajectory","trace","tool_call","tool_output","steps","messages","conversations","chosen","rejected")
 def _flatten(value:Any,depth:int=0)->list[str]:
-    if depth>8 or value is None:return []
+    if depth>10 or value is None:return []
     if isinstance(value,str):return [value.strip()] if value.strip() else []
     if isinstance(value,(int,float,bool)):return [str(value)]
     if isinstance(value,list):
         out=[]
-        for x in value:out.extend(_flatten(x,depth+1))
+        for item in value:out.extend(_flatten(item,depth+1))
         return out
     if isinstance(value,dict):
         out=[]
-        for k in TEXT_KEYS:
-            if k in value:out.extend(_flatten(value[k],depth+1))
-        if not out:
-            for k in sorted(value):
-                if isinstance(value[k],(str,int,float,bool)):out.extend(_flatten(value[k],depth+1))
+        ordered=[k for k in TEXT_KEYS if k in value]
+        ordered.extend(k for k in sorted(value) if k not in ordered)
+        for key in ordered:
+            parts=_flatten(value[key],depth+1)
+            if parts:out.append(f"<{key}> "+" ".join(parts))
         return out
     return []
 def extract_text(record:Any)->str:

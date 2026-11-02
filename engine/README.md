@@ -99,6 +99,18 @@ Routes (localhost only):
 - No repository deletion, dataset deletion, model upload, or training is performed.
 - The Hugging Face mirror uploads the prepared output directory. Depending on the Hub upload behavior and repo state, files not present in the uploaded folder may remain in the remote repo; inspect the repo after publishing.
 - Verify dataset licensing, provenance, quality, and split policy before training or redistribution.
-- The initial normalizer writes `train.jsonl` and `heldout.jsonl`. It currently groups validation and test path names together as held-out; separate validation/test splits remain to be implemented.
+- The normalizer writes `train.jsonl` and `heldout.jsonl`. It processes held-out paths first before deduplication to reduce train/held-out leakage. Validation and test path names are currently combined as held-out; separate validation/test outputs remain to be implemented.
 - This is a local first milestone. The API has no authentication, job queue, persistent job history, or concurrency lock. It binds to `127.0.0.1`; do not expose it publicly without adding those controls.
+- Malformed JSONL lines are skipped and counted; file-level failures are recorded in the manifest.
 - Live Kaggle downloads and Hugging Face uploads require the user's credentials and have not been run from this repository change.
+
+
+## Unit tests
+
+From the `engine` directory:
+
+```bash
+PYTHONPATH=python python -m unittest discover -s python/tests -v
+npm run typecheck
+npm run build
+```

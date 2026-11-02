@@ -1,3 +1,6 @@
-# Core preparation uses Python's standard library.
-# Install this optional dependency only when Parquet input files are present:
+# Optional format support:
 pyarrow>=18.0.0
+
+# Kaggle source download and Hugging Face dataset mirroring:
+kaggle>=1.6.17
+huggingface_hub>=0.26.0

@@ -1,0 +1,3 @@
+# Core preparation uses Python's standard library.
+# Install this optional dependency only when Parquet input files are present:
+pyarrow>=18.0.0

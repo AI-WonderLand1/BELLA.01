@@ -32,8 +32,8 @@ class PipelineTests(unittest.TestCase):
             (root / "training").mkdir(parents=True)
             (root / "test").mkdir()
             record = {"prompt": "Shared example", "completion": "Shared answer"}
-            (root / "training" / "train.jsonl").write_text(json.dumps(record) + "\\n", encoding="utf-8")
-            (root / "test" / "test.jsonl").write_text(json.dumps(record) + "\\n", encoding="utf-8")
+            (root / "training" / "train.jsonl").write_text(json.dumps(record) + "\n", encoding="utf-8")
+            (root / "test" / "test.jsonl").write_text(json.dumps(record) + "\n", encoding="utf-8")
 
             manifest = prepare(root, output)
 
@@ -49,7 +49,7 @@ class PipelineTests(unittest.TestCase):
             output = Path(tmp) / "output"
             root.mkdir()
             (root / "records.jsonl").write_text(
-                '{"prompt":"valid","completion":"record"}\\n{not-json}\\n',
+                '{"prompt":"valid","completion":"record"}\n{not-json}\n',
                 encoding="utf-8"
             )
 

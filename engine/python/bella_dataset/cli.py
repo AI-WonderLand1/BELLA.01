@@ -58,15 +58,18 @@ def normalize_record(record: Any) -> list[dict[str, str]] | None:
     return None
 
 
-def records_from(path: Path) -> Iterable[Any]:
+def records_from(path: Path, stats: dict[str, int] | None = None) -> Iterable[Any]:
     suffix = path.suffix.lower()
     if suffix in {".jsonl", ".ndjson"}:
         with path.open(encoding="utf-8", errors="replace") as stream:
-            for line in stream:
+            for line_number, line in enumerate(stream, start=1):
                 if line.strip():
                     try:
                         yield json.loads(line)
                     except json.JSONDecodeError:
+                        if stats is not None:
+                            stats["malformed_jsonl_lines"] = stats.get("malformed_jsonl_lines", 0) + 1
+                        print(f"INVALID_JSONL {path}:{line_number}")
                         continue
     elif suffix == ".json":
         data = json.loads(path.read_text(encoding="utf-8", errors="replace"))
@@ -92,9 +95,12 @@ def prepare(input_root: Path, output_root: Path) -> dict[str, Any]:
     if not input_root.is_dir():
         raise FileNotFoundError(f"Dataset input directory does not exist: {input_root}")
     output_root.mkdir(parents=True, exist_ok=True)
-    paths = sorted(p for p in input_root.rglob("*") if p.is_file() and p.suffix.lower() in SUPPORTED)
+    paths = [p for p in input_root.rglob("*") if p.is_file() and p.suffix.lower() in SUPPORTED]
+    # Process held-out files first so duplicate records never leak from held-out data into training.
+    paths.sort(key=lambda p: (not bool(EVAL_PATH.search(p.relative_to(input_root).as_posix())), p.as_posix()))
     seen: set[str] = set()
-    counts = {"files_found": len(paths), "records_seen": 0, "normalized": 0, "duplicates": 0, "skipped": 0, "train": 0, "heldout": 0}
+    counts = {"files_found": len(paths), "records_seen": 0, "normalized": 0, "duplicates": 0, "skipped": 0, "malformed_jsonl_lines": 0, "file_errors": 0, "train": 0, "heldout": 0}
+    file_errors: list[dict[str, str]] = []
     handles = {
         "train": (output_root / "train.jsonl").open("w", encoding="utf-8"),
         "heldout": (output_root / "heldout.jsonl").open("w", encoding="utf-8"),
@@ -104,7 +110,7 @@ def prepare(input_root: Path, output_root: Path) -> dict[str, Any]:
             try:
                 relative = path.relative_to(input_root).as_posix()
                 heldout = bool(EVAL_PATH.search(relative))
-                for raw in records_from(path):
+                for raw in records_from(path, counts):
                     counts["records_seen"] += 1
                     messages = normalize_record(raw)
                     if not messages:
@@ -122,6 +128,8 @@ def prepare(input_root: Path, output_root: Path) -> dict[str, Any]:
                     counts["normalized"] += 1
                     counts[bucket] += 1
             except Exception as exc:
+                counts["file_errors"] += 1
+                file_errors.append({"file": path.relative_to(input_root).as_posix(), "error": f"{type(exc).__name__}: {exc}"})
                 print(f"FILE_ERROR {path}: {type(exc).__name__}: {exc}")
     finally:
         for handle in handles.values():
@@ -131,6 +139,7 @@ def prepare(input_root: Path, output_root: Path) -> dict[str, Any]:
         "engine": "BELLA.01 Hybrid Dataset Engine",
         "format": "chat-messages-jsonl",
         "counts": counts,
+        "file_errors": file_errors,
         "outputs": {name: f"{name}.jsonl" for name in handles},
         "notes": [
             "This stage prepares data only; it does not train or publish a model.",

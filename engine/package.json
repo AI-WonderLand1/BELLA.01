@@ -1,8 +1,9 @@
 {
   "name": "@bella-01/hybrid-dataset-engine",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Node.js orchestration and Python data-processing engine for BELLA.01",
+  "license": "WTFPL",
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",

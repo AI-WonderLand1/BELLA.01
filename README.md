@@ -39,7 +39,7 @@ Hugging Face dataset repository (optional mirror)
 
 - Reads JSONL, NDJSON, JSON, CSV, and Parquet files (Parquet requires `pyarrow`).
 - Normalizes common chat, ShareGPT, and instruction/prompt-completion record shapes.
-- Deduplicates normalized message sequences.
+- Deduplicates normalized message sequences, processing held-out files first so exact duplicates are not accidentally retained in training.
 - Writes training and held-out JSONL files plus a processing manifest.
 - Downloads a Kaggle dataset when its exact `owner/dataset-slug` is configured.
 - Mirrors prepared output to the existing Hugging Face dataset repository when an authorized token is configured.
@@ -123,7 +123,7 @@ The pipeline does not delete source files, delete the Hugging Face dataset repos
 - The Kaggle dataset slug is intentionally unset until the exact dataset is confirmed.
 - Validation and test files are currently combined into a single held-out split; separate validation and test outputs are not implemented yet.
 - The first preparation pass holds deduplication hashes in memory, which may be unsuitable for very large corpora.
-- Malformed JSONL lines are skipped; file-level errors are printed and processing continues, so inspect logs and manifest counts before trusting an output.
+- Malformed JSONL lines are skipped and counted; file-level failures are recorded in the manifest and processing continues. Inspect logs and manifest counts before trusting an output.
 - The local API has no authentication, queue, or concurrency lock.
 - Kaggle downloads and Hugging Face uploads have not been verified end-to-end with live credentials in this repository session.
 - No model training, tokenizer integration, evaluation harness, or training adapter is included yet.

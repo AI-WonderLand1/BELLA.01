@@ -25,6 +25,39 @@ class NormalizeTests(unittest.TestCase):
 
 
 class PipelineTests(unittest.TestCase):
+    def test_heldout_duplicate_is_not_written_to_training(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "input"
+            output = Path(tmp) / "output"
+            (root / "training").mkdir(parents=True)
+            (root / "test").mkdir()
+            record = {"prompt": "Shared example", "completion": "Shared answer"}
+            (root / "training" / "train.jsonl").write_text(json.dumps(record) + "\\n", encoding="utf-8")
+            (root / "test" / "test.jsonl").write_text(json.dumps(record) + "\\n", encoding="utf-8")
+
+            manifest = prepare(root, output)
+
+            self.assertEqual(manifest["counts"]["train"], 0)
+            self.assertEqual(manifest["counts"]["heldout"], 1)
+            self.assertEqual(manifest["counts"]["duplicates"], 1)
+            heldout = json.loads((output / "heldout.jsonl").read_text(encoding="utf-8").strip())
+            self.assertEqual(heldout["source_file"], "test/test.jsonl")
+
+    def test_malformed_jsonl_is_counted(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "input"
+            output = Path(tmp) / "output"
+            root.mkdir()
+            (root / "records.jsonl").write_text(
+                '{"prompt":"valid","completion":"record"}\\n{not-json}\\n',
+                encoding="utf-8"
+            )
+
+            manifest = prepare(root, output)
+
+            self.assertEqual(manifest["counts"]["malformed_jsonl_lines"], 1)
+            self.assertEqual(manifest["counts"]["normalized"], 1)
+
     def test_train_heldout_and_deduplication(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp) / "input"

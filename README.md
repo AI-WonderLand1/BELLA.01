@@ -1,4 +1,4 @@
-# BELLA.01
+# MICHELLE.01
 
 BELLA.01 is the dataset preparation and orchestration project for AI WONDERLAND. It uses **Node.js/TypeScript for orchestration** and **Python for data processing**.
 
@@ -6,8 +6,8 @@ The initial pipeline is designed to take source datasets from Kaggle, normalize 
 
 ## Repositories
 
-- **Model:** [ai-wonderland-innovation/BELLA.01](https://huggingface.co/ai-wonderland-innovation/BELLA.01)
-- **Dataset mirror:** [ai-wonderland-innovation/Bella-Training-Datasets](https://huggingface.co/datasets/ai-wonderland-innovation/Bella-Training-Datasets)
+- **Model:** [ai-wonderland-innovation/BELLA.01](https://huggingface.co/ai-wonderland-innovation/MICHELLE.01)
+- **Dataset mirror:** [ai-wonderland-innovation/MICHELLE-Training-Datasets](https://huggingface.co/datasets/ai-wonderland-innovation/MICHELLE-Training-Datasets)
 
 The model repository and dataset repository are separate. This codebase does not upload model weights or start model training.
 

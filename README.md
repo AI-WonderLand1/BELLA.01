@@ -6,7 +6,7 @@ The initial pipeline is designed to take source datasets from Kaggle, normalize 
 
 ## Repositories
 
-- **Model:** [ai-wonderland-innovation/BELLA.01](https://huggingface.co/ai-wonderland-innovation/MICHELLE.01)
+- **Model:** [ai-wonderland-innovation/MICHELLE.01](https://huggingface.co/ai-wonderland-innovation/MICHELLE.01)
 - **Dataset mirror:** [ai-wonderland-innovation/MICHELLE-Training-Datasets](https://huggingface.co/datasets/ai-wonderland-innovation/MICHELLE-Training-Datasets)
 
 The model repository and dataset repository are separate. This codebase does not upload model weights or start model training.
